@@ -1,15 +1,20 @@
 set nocompatible
 filetype off
 
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'gmarik/Vundle.vim'
+
+Plugin 'scrooloose/nerdtree'
+Plugin 'vim-scripts/taglist.vim'
+Plugin 'scrooloose/syntastic'
+Plugin 'kien/ctrlp.vim'
+
+call vundle#end()
+
+filetype plugin indent on
+
 let mapleader=","
-
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
-Bundle 'scrooloose/nerdtree'
-Bundle 'vim-scripts/taglist.vim'
-Bundle 'scrooloose/syntastic'
-Bundle 'kien/ctrlp.vim'
 
 set number
 syntax on
@@ -19,9 +24,9 @@ set encoding=utf8
 
 " Whitespace stuff
 set nowrap
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
 set expandtab
 set list listchars=tab:\ \ ,trail:·
 
@@ -90,6 +95,7 @@ filetype plugin indent on
 " Enable syntastic syntax checking
 let g:syntastic_enable_signs=1
 let g:syntastic_quiet_messages = {'level': 'warnings'}
+let g:syntastic_javascript_checkers = ['jshint']
 
 " Use modeline overrides
 set modeline
