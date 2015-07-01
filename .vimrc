@@ -22,6 +22,7 @@ syntax on
 set autoread " Automatically reload changes if detected
 set ruler
 set encoding=utf8
+set pastetoggle=<F2>
 
 " Whitespace stuff
 set nowrap
@@ -81,8 +82,11 @@ au BufRead,BufNewFile *.txt call s:setupWrapping()
 " Mustache configuration
 au BufNewFile,BufRead *.mustache        setf mustache
 
-" Yaml Configuration
-au BufRead,BufNewFile *.{yml,yaml} set foldmethod=indent
+" Yaml Configuration (with SLS)
+au BufRead,BufNewFile *.{yml,yaml,sls} set foldmethod=indent
+
+" SLS Configuration
+au BufRead,BufNewFile *.slsset ft=yaml
 
 " make Python follow PEP8 ( http://www.python.org/dev/peps/pep-0008/ )
 au FileType python set softtabstop=4 tabstop=4 shiftwidth=4 textwidth=79
