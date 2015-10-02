@@ -86,7 +86,7 @@ au BufNewFile,BufRead *.mustache        setf mustache
 au BufRead,BufNewFile *.{yml,yaml,sls} set foldmethod=indent
 
 " SLS Configuration
-au BufRead,BufNewFile *.slsset ft=yaml
+au BufRead,BufNewFile *.sls set ft=yaml
 
 " make Python follow PEP8 ( http://www.python.org/dev/peps/pep-0008/ )
 au FileType python set softtabstop=4 tabstop=4 shiftwidth=4 textwidth=79
