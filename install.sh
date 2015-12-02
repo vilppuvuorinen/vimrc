@@ -18,12 +18,18 @@ else
 fi
 
 if [ -d $VundleDIR/.git ]; then
-  cd $VundleDIR; git pull
+  pushd $VundleDIR
+  git pull
+  popd
 else
   git clone https://github.com/gmarik/Vundle.vim.git $VundleDIR
 fi
 
-cd $BundleDIR/tern_for_vim; npm install
+vim +BundleInstall +qall
+
+pushd $BundleDIR/tern_for_vim
+npm install
+popd
 cat <<EOF > ~/.tern-config
 {
   "libs": [
@@ -36,3 +42,7 @@ cat <<EOF > ~/.tern-config
   }
 }
 EOF
+
+pushd $BundleDIR/YouCompleteMe
+./install.py --gocode-completer
+popd
