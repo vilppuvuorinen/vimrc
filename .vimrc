@@ -13,6 +13,8 @@ Plugin 'Valloric/YouCompleteMe'
 
 call vundle#end()
 
+let g:ycm_server_python_interpreter = '/usr/bin/python3'
+
 filetype plugin indent on
 
 let mapleader=","
