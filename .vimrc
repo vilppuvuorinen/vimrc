@@ -6,9 +6,9 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
 Plugin 'scrooloose/nerdtree'
-Plugin 'vim-scripts/taglist.vim'
-Plugin 'scrooloose/syntastic'
-Plugin 'kien/ctrlp.vim'
+Plugin 'majutsushi/tagbar'
+Plugin 'vim-syntastic/syntastic'
+Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'Valloric/YouCompleteMe'
 
 call vundle#end()
@@ -52,15 +52,19 @@ set laststatus=2
 let NERDTreeIgnore=['\.pyc$', '\.rbc$', '\~$']
 map <Leader>n :NERDTreeToggle<CR>
 
+" Tagbar
+map <Leader>m :TagbarToggle<CR>
+
+" CtrlP
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_root_markers = ['pom.xml', '.git', 'package.json', 'requirements.txt']
+
 " Remember last location in file
 if has("autocmd")
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
     \| exe "normal g'\"" | endif
 endif
-
-" CTags
-map <Leader>rt :!/usr/local/bin/ctags --extra=+f -R *<CR><CR>
-map <C-\> :tnext<CR>
 
 function s:setupWrapping()
   set wrap
