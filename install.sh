@@ -6,8 +6,24 @@ CONF=$HOME/.vimrc
 BundleDIR=$HOME/.vim/bundle
 VundleDIR=$BundleDIR/Vundle.vim
 
-ClangVersion="3.8.0"
-UbuntuVersion=$(lsb_release -a 2>/dev/null|awk '/Release:/{ print $2 }')
+if [ -f /etc/lsb_release ]; then
+  __Distro=$(lsb_release -a 2>/dev/null|awk '/Distribution ID:/{ print $2)')
+  if [ "${__Distro}" = "Ubuntu" ]; then
+    source install/install.ubuntu.sh
+  elif [ "${__Distro}" = "Debian" ]; then
+    source install/install.debian.sh
+  else
+    echo "Invalid Debian variant [${__Distro}]"
+    exit 1
+  fi
+elif [ -f /etc/debian_release ]; then
+  source install.debian.sh
+elif [ -f /etc/arch-release ]; then
+  source install/install.arch.sh
+else
+  echo "Unsupported distro"
+  exit 1
+fi
 
 linkrc () {
   if [ -f $CONF ]; then
@@ -34,47 +50,37 @@ install-bundle () {
   vim +BundleInstall +qall
 }
 
-check-pkg () {
-  if [ $# -ne 1 ]; then
-    exit 1
-  fi
-
-  __pkg=$1
-
-  dpkg -s "${__pkg}"
-}
-
 install-ycm () {
-  ClangPkg="clang+llvm-${ClangVersion}-x86_64-linux-gnu-ubuntu-${UbuntuVersion}"
-  ClangUrl="http://llvm.org/releases/${ClangVersion}/${ClangPkg}.tar.xz"
-  ClangTmp=$(mktemp -d)
-
   YcmDir="${BundleDIR}/YouCompleteMe"
+
+  YcmBuildTmp=$(mktemp -d)
 
   pushd "${YcmDir}"
     git submodule update --init --recursive
   popd
 
-  pushd "${ClangTmp}"
+  ensure-clang
 
-    curl -SLO ${ClangUrl}
-    tar -xf ${ClangPkg}.tar.xz
-    rm ${ClangPkg}.tar.xz
+  pushd "${YcmBuildTmp}"
 
     cmake -G "Unix Makefiles" \
-      -DPATH_TO_LLVM_ROOT="./${ClangPkg}" \
+      "$(clang-path)" \
       . "${YcmDir}/third_party/ycmd/cpp"
 
     cmake --build . --target ycm_core --config Release
   popd
 
-  pushd "${YcmDir}/third_party/ycmd/third_party/gocode"
-    go build
-  popd
+  if hash go 2>/dev/null; then
+    pushd "${YcmDir}/third_party/ycmd/third_party/gocode"
+      go build
+    popd
+  fi
 
-  pushd "${YcmDir}/third_party/ycmd/third_party/tern_runtime"
-    npm install --production
-  popd
+  if hash npm 2>/dev/null; then
+    pushd "${YcmDir}/third_party/ycmd/third_party/tern_runtime"
+      npm install --production
+    popd
+  fi
 
   #rm -rf ${ClangTmp} # TODO: Uncomment when actually working!
 }
@@ -94,9 +100,7 @@ conf-tern () {
 EOF
 }
 
-check-pkg python-dev
-check-pkg python3-dev
-check-pkg cmake
+check-deps
 
 linkrc
 install-vundle
