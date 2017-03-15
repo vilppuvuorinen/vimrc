@@ -9,17 +9,17 @@ VundleDIR=$BundleDIR/Vundle.vim
 if [ -f /etc/lsb_release ]; then
   __Distro=$(lsb_release -a 2>/dev/null|awk '/Distribution ID:/{ print $2)')
   if [ "${__Distro}" = "Ubuntu" ]; then
-    source install/install.ubuntu.sh
+    source "${DIR}/install/install.ubuntu.sh"
   elif [ "${__Distro}" = "Debian" ]; then
-    source install/install.debian.sh
+    source "${DIR}/install/install.debian.sh"
   else
     echo "Invalid Debian variant [${__Distro}]"
     exit 1
   fi
 elif [ -f /etc/debian_release ]; then
-  source install.debian.sh
+  source "${DIR}/install/install.debian.sh"
 elif [ -f /etc/arch-release ]; then
-  source install/install.arch.sh
+  source "${DIR}/install/install.arch.sh"
 else
   echo "Unsupported distro"
   exit 1
