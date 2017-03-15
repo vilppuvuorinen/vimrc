@@ -42,7 +42,7 @@ install-vundle () {
     git pull
     popd
   else
-    git clone https://github.com/gmarik/Vundle.vim.git $VundleDIR
+    git clone https://github.com/VundleVim/Vundle.vim.git $VundleDIR
   fi
 }
 
