@@ -86,6 +86,10 @@ install-ycm () {
   #rm -rf ${ClangTmp} # TODO: Uncomment when actually working!
 }
 
+install-extras () {
+  source "${DIR}/extras/*.sh"
+}
+
 conf-tern () {
   cat <<EOF > ~/.tern-config
 {
