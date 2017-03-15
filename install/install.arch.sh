@@ -22,6 +22,6 @@ ensure-clang () {
 }
 
 clang-path () {
-  echo ""
+  echo "-DUSE_SYSTEM_LIBCLANG=ON"
 }
 

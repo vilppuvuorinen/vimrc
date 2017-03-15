@@ -65,6 +65,7 @@ install-ycm () {
 
     cmake -G "Unix Makefiles" \
       "$(clang-path)" \
+      -DUSE_PYTHON2=OFF \
       . "${YcmDir}/third_party/ycmd/cpp"
 
     cmake --build . --target ycm_core --config Release
