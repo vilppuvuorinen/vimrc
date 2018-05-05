@@ -6,8 +6,8 @@ CONF=$HOME/.vimrc
 BundleDIR=$HOME/.vim/bundle
 VundleDIR=$BundleDIR/Vundle.vim
 
-if [ -f /etc/lsb_release ]; then
-  __Distro=$(lsb_release -a 2>/dev/null|awk '/Distribution ID:/{ print $2)')
+if [ -f /etc/lsb-release ]; then
+  __Distro=$(lsb_release -a 2>/dev/null |awk 'FNR == 2 {print}' |awk '/Distributor ID:/{print $3}')
   if [ "${__Distro}" = "Ubuntu" ]; then
     source "${DIR}/install/install.ubuntu.sh"
   elif [ "${__Distro}" = "Debian" ]; then
