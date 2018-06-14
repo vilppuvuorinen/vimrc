@@ -1,6 +1,10 @@
 set nocompatible
 filetype off
 
+" To fix colors with Tmux
+set background=dark
+set t_Co=256
+
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
