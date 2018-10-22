@@ -7,7 +7,7 @@ BundleDIR=$HOME/.vim/bundle
 VundleDIR=$BundleDIR/Vundle.vim
 
 if [ -f /etc/lsb-release ]; then
-  __Distro=$(lsb_release -a 2>/dev/null |awk 'FNR == 2 {print}' |awk '/Distributor ID:/{print $3}')
+  __Distro=$(lsb_release -a 2>/dev/null |awk 'FNR == 1 {print}' |awk '/Distributor ID:/{print $3}')
   if [ "${__Distro}" = "Ubuntu" ]; then
     source "${DIR}/install/install.ubuntu.sh"
   elif [ "${__Distro}" = "Debian" ]; then
@@ -24,6 +24,18 @@ else
   echo "Unsupported distro"
   exit 1
 fi
+
+check-deps () {
+  #Check dependencies for supported distros \
+  #python-dev \
+  if [ "${__Distro}" = "Ubuntu" ]; then
+    dpkg-query -W --showformat='${Status}\n' python-dev 2>&1 |grep 'install ok installed' || true
+    if [ "" == "$PKG_OK" ]; then
+      echo "No python-dev installed"
+      sudo apt-get --yes install python-dev
+    fi
+  fi
+}
 
 linkrc () {
   if [ -f $CONF ]; then
