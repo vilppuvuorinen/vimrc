@@ -86,6 +86,8 @@ au BufRead,BufNewFile *.{md,markdown,mdown,mkd,mkdn} call s:setupWrapping()
 au BufNewFile,BufRead *.json set ft=javascript
 au BufRead,BufNewFile *.txt call s:setupWrapping()
 
+au BufRead,BufNewFile {Jenkinsfile*} set ft=groovy
+
 " Mustache configuration
 au BufNewFile,BufRead *.mustache        setf mustache
 
